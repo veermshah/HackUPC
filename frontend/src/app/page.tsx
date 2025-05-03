@@ -73,10 +73,13 @@ export default async function Home() {
     }
 
     return (
-        <main className="min-h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/background.jpg')" }}>
+        <main className="min-h-screen bg-cover bg-center bg-no-repeat">
             <nav className="fixed top-6 left-0 right-0 mx-4 flex items-center justify-between px-8 py-4 rounded-full bg-white/10 backdrop-blur-md border-2 border-black/10 shadow-lg z-10">
                 <div className="flex items-center space-x-4">
-                    <a href="/" className="group relative inline-flex items-center">
+                    <a
+                        href="/"
+                        className="group relative inline-flex items-center"
+                    >
                         <span className="relative z-10 text-3xl font-black text-[#0f3857] transform transition-transform duration-300 group-hover:translate-x-16">
                             Midpoint
                         </span>
@@ -86,12 +89,13 @@ export default async function Home() {
                             className="absolute left-0 w-12 h-12 opacity-0 transform -translate-x-12 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0"
                         />
                     </a>
-                    {session && <CreateGroupButton action={createGroup} />}
-                    <button className="text-xl ml-32 font-semibold text-[#0f3857] cursor-pointer hover:scale-110 active:scale-95 duration-75">
-                        <Link href="/about">About</Link>
-                    </button>
+
                     {session && (
                         <>
+                            <button className="text-xl ml-32 font-semibold text-[#0f3857] cursor-pointer hover:scale-110 active:scale-95 duration-75">
+                                <Link href="/about">About</Link>
+                            </button>
+                            <CreateGroupButton action={createGroup} />
                             <Link href="/preferences">
                                 <button className="text-xl ml-8 font-semibold text-[#0f3857] cursor-pointer hover:scale-110 active:scale-95 duration-75">
                                     Preferences
@@ -138,13 +142,29 @@ export default async function Home() {
                     </div>
                 </div>
             ) : (
-                <>
-                    <div className="pt-[120px] px-8">
-                        <h2 className="text-2xl font-bold mb-4 text-black">Groups</h2>
-                        <GroupList groups={userGroups} />
+                <div className="absolute top-0 left-0 right-0 bottom-0 mx-16">
+                    <div className="mt-36 flex items-center">
+                        {session?.user?.picture && (
+                            <img
+                                src={session.user.picture}
+                                alt="Profile"
+                                className="w-16 h-16 rounded-full shadow-md"
+                            />
+                        )}
+                        {session?.user?.name && (
+                            <h1 className="text-2xl text-[#0f3857] ml-4">
+                                <span className="font-bold">Welcome back,</span>{" "}
+                                <span className="font-semibold text-[#73d8db]">
+                                    {session.user.name}!
+                                </span>
+                            </h1>
+                        )}
                     </div>
-                    <LoginHome />
-                </>
+                    <h2 className="text-4xl font-bold mt-16 mb-8 text-black">
+                        Groups
+                    </h2>
+                    <GroupList groups={userGroups} />
+                </div>
             )}
         </main>
     );

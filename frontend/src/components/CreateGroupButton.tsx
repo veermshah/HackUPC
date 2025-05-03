@@ -9,7 +9,7 @@ export default function CreateGroupButton({ action }: { action: (formData: FormD
     <>
       <button
         onClick={() => setShow(true)}
-        className="text-xl ml-32 font-semibold text-[#0f3857] cursor-pointer hover:scale-110 active:scale-95 duration-75"
+        className="text-xl ml-8 font-semibold text-[#0f3857] cursor-pointer hover:scale-110 active:scale-95 duration-75"
       >
         Create Group
       </button>
