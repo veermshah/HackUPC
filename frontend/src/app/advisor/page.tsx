@@ -8,6 +8,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import Navbar from "@/components/Navbar";
+import AIChat from "@/components/AIChat";
 
 export default async function About() {
     const session = await auth0.getSession();
@@ -71,7 +72,7 @@ export default async function About() {
             <Navbar session={session} createGroup={createGroup} />
             <div className="flex flex-col items-center justify-center h-screen mt-20">
                 <h1 className="text-3xl font-bold mb-4">Mr. Midpoint</h1>
-                {/* Add AI advisor chat UI here */}
+                <AIChat />
             </div>
         </div>
     );
