@@ -1,5 +1,7 @@
 import { auth0 } from "@/lib/auth0";
 import "./globals.css";
+import { connectToDB } from "@/lib/mongodb";
+import User from "@/lib/models/user";
 
 export default async function Home() {
     const session = await auth0.getSession();
