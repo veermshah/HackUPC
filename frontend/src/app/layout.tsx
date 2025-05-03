@@ -19,8 +19,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Travel Scanner",
+    title: "Midpoint",
     description: "Plan your next trip with your friends",
+    icons: {
+        icon: "/favicon.png", // or .png/.svg
+    },
 };
 
 export default function RootLayout({

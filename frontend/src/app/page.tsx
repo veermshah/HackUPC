@@ -3,22 +3,21 @@ import "./globals.css";
 import { connectToDB } from "@/lib/mongodb";
 import User from "@/lib/models/user";
 import Link from "next/link";
+import Liquid from "@/components/spline/page";
+import LoginHome from "@/components/LoginHome/page";
 
 export default async function Home() {
     const session = await auth0.getSession();
 
     return (
-        <main
-            className="min-h-screen bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/background.jpg')" }}
-        >
+        <main>
             <nav className="fixed top-6 left-0 right-0 mx-4 flex items-center justify-between px-8 py-4 rounded-full bg-white/10 backdrop-blur-md border-2 border-black/10 shadow-lg">
                 <div className="flex items-center space-x-4">
                     <a
                         href="/"
                         className="text-3xl font-black text-[#0f3857] cursor-pointer hover:scale-110 active:scale-95 duration-75"
                     >
-                        Scanner
+                        Midpoint
                     </a>
                     {session && (
                         <div>
@@ -62,6 +61,28 @@ export default async function Home() {
                     )}
                 </div>
             </nav>
+            {!session ? (
+                <div>
+                    <div className="h-24"></div>
+                    <Liquid />
+                    <div className="flex flex-col items-center justify-center h-screen">
+                        <h1 className="text-5xl font-bold text-[#0f3857] mt-32">
+                            Plan your next trip with your friends
+                        </h1>
+                        <p className="text-lg text-gray-600 mt-4">
+                            Create a group and start planning your next
+                            adventure!
+                        </p>
+                        <a href="/auth/login?screen_hint=signup">
+                            <button className="mt-8 px-6 py-3 bg-[#0f3857] text-white rounded-lg hover:bg-[#0f3857] hover:scale-110 active:scale-95 cursor-pointer duration-75">
+                                Get Started
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            ) : (
+                <LoginHome />
+            )}
         </main>
     );
 }
