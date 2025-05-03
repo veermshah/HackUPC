@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema({
   name: { type: String },
   groups: [{ type: String }], // lista de groupIds
   isOwner: { type: Boolean, default: false }, // nuevo campo booleano
+  tripPreferences: { type: Object, default: {} },
 });
 
 const User = mongoose.models.User || mongoose.model("User", UserSchema);

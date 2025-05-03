@@ -3,7 +3,6 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import {
     Box,
-    Button,
     Checkbox,
     FormControl,
     FormControlLabel,
@@ -30,7 +29,7 @@ interface TripFormData {
     travelMode: string;
     dietaryNeeds: string;
     passportRequired: boolean;
-    groupSize: string;
+    homeCity: string;
     environmentalConcern: string;
     otherRequirements: string;
 }
@@ -48,7 +47,7 @@ export default function TripForm() {
         travelMode: "",
         dietaryNeeds: "",
         passportRequired: false,
-        groupSize: "",
+        homeCity: "",
         environmentalConcern: "",
         otherRequirements: "",
     });
@@ -85,17 +84,29 @@ export default function TripForm() {
         }));
     };
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        console.log(form);
+
+        const res = await fetch("/api/trip/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(form),
+        });
+
+        if (res.ok) {
+            console.log("Trip preferences saved");
+            router.push("/"); // or wherever you want to redirect
+        } else {
+            console.error("Failed to save preferences");
+        }
     };
 
     return (
         <main
-            className="min-h-screen bg-cover bg-center "
+            className="min-h-screen bg-cover bg-center"
             style={{ backgroundImage: "url('/background.jpg')" }}
         >
-            <div className="h-8"></div>
+            <div className="h-8" />
             <Box
                 component="form"
                 onSubmit={handleSubmit}
@@ -112,13 +123,7 @@ export default function TripForm() {
                     onClick={() => router.push("/")}
                     className="text-black cursor-pointer hover:scale-110 active:scale-95 duration-75 text-xl items-center flex mb-2"
                 >
-                    <span
-                        style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "4px",
-                        }}
-                    >
+                    <span className="inline-flex items-center gap-1">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -137,6 +142,27 @@ export default function TripForm() {
                         Back
                     </span>
                 </button>
+
+                <TextField
+                    label="Name"
+                    name="name"
+                    fullWidth
+                    margin="normal"
+                    value={form.name}
+                    onChange={handleChange}
+                    required
+                />
+
+                <TextField
+                    label="Home City"
+                    name="homeCity"
+                    fullWidth
+                    margin="normal"
+                    value={form.homeCity}
+                    onChange={handleChange}
+                    required
+                />
+
                 <TextField
                     label="Budget (USD)"
                     name="budget"
@@ -146,16 +172,6 @@ export default function TripForm() {
                     value={form.budget}
                     onChange={handleChange}
                     required
-                />
-
-                <TextField
-                    label="Number of Travelers"
-                    name="groupSize"
-                    type="number"
-                    fullWidth
-                    margin="normal"
-                    value={form.groupSize}
-                    onChange={handleChange}
                 />
 
                 <FormControl fullWidth margin="normal">
@@ -176,11 +192,7 @@ export default function TripForm() {
                     </Select>
                 </FormControl>
 
-                <FormControl
-                    className="text-black"
-                    component="fieldset"
-                    margin="normal"
-                >
+                <FormControl component="fieldset" margin="normal">
                     <Typography variant="subtitle1" gutterBottom>
                         Interests
                     </Typography>
@@ -312,7 +324,7 @@ export default function TripForm() {
                     Submit Preferences
                 </button>
             </Box>
-            <div className="h-8"></div>
+            <div className="h-8" />
         </main>
     );
 }

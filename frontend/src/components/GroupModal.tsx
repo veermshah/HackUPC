@@ -67,7 +67,7 @@ export default function GroupModal({ group, onClose }: { group: any; onClose: ()
                         type="email"
                         value={email}
                         onChange={(e) => updateEmail(index, e.target.value)}
-                        placeholder={`Member ${index + 1} email`}
+                        placeholder={`johndoe@gmail.com`}
                         className="w-full mb-2 p-2 border border-gray-300 rounded-md text-black"
                         required
                     />
@@ -76,7 +76,7 @@ export default function GroupModal({ group, onClose }: { group: any; onClose: ()
                 {emails.length < 6 && (
                     <button
                         onClick={addEmailField}
-                        className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition mb-4"
+                        className="w-full bg-[#0f3857] text-white py-2 rounded-md hover:bg-[#c0dedf] transition mb-2 mt-4 cursor-pointer"
                     >
                         Add Another Member
                     </button>
@@ -86,14 +86,14 @@ export default function GroupModal({ group, onClose }: { group: any; onClose: ()
 
                 <button
                     onClick={handleInvite}
-                    className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition mb-2"
+                    className="w-full bg-[#83d6d8] text-white py-2 rounded-md hover:bg-[#0f3857] transition mb-2 cursor-pointer"
                 >
                     Send Invitations
                 </button>
 
                 <button
                     onClick={onClose}
-                    className="w-full bg-gray-400 text-white py-2 rounded-md hover:bg-gray-500 transition"
+                    className="w-full bg-gray-400 text-white py-2 rounded-md hover:bg-gray-500 transition cursor-pointer"
                 >
                     Close
                 </button>
