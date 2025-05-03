@@ -1,18 +1,12 @@
-import { auth0 } from "@/lib/auth0";
-import "./globals.css";
-import { connectToDB } from "@/lib/mongodb";
-import User from "@/lib/models/user";
+import React from "react";
 import Link from "next/link";
-import Liquid from "@/components/spline/page";
-import LoginHome from "@/components/LoginHome/page";
-import { Typewriter } from "react-simple-typewriter";
-import TypewriterEffect from "@/components/typewriter/page";
+import { auth0 } from "@/lib/auth0";
 
-export default async function Home() {
+export default async function About() {
     const session = await auth0.getSession();
 
     return (
-        <main>
+        <div>
             <nav className="fixed top-6 left-0 right-0 mx-4 flex items-center justify-between px-8 py-4 rounded-full bg-white/10 backdrop-blur-md border-2 border-black/10 shadow-lg">
                 <div className="flex items-center space-x-4">
                     <a
@@ -28,7 +22,7 @@ export default async function Home() {
                             className="absolute left-0 w-12 h-12 opacity-0 transform -translate-x-12 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0"
                         />
                     </a>
-                    <button className="text-xl ml-32 font-semibold text-[#0f3857] cursor-pointer hover:scale-110 active:scale-95 duration-75">
+                    <button className="text-xl ml-32 font-semibold text-[#0f3857] bg-[#c0dedf] rounded-full px-6 py-2 cursor-pointer hover:scale-110 active:scale-95 duration-75">
                         <Link href="/about">About</Link>
                     </button>
 
@@ -74,16 +68,22 @@ export default async function Home() {
                     )}
                 </div>
             </nav>
-            {!session ? (
-                <div>
-                    <Liquid />
-                    <div className="text-center absolute bottom-10 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        <TypewriterEffect />
-                    </div>
+            <div className="flex items-center gap-24 justify-center ">
+                <div className="flex flex-col  justify-center h-screen">
+                    <h1 className="text-6xl font-bold mt-10">
+                        About Us
+                    </h1>
+                    <p className="text-lg mt-5 max-w-2xl mx-auto">
+                        We are a team of passionate developers dedicated to
+                        creating innovative solutions that make a difference.
+                        Our mission is to empower users with cutting-edge
+                        technology and exceptional user experiences.
+                    </p>
                 </div>
-            ) : (
-                <LoginHome />
-            )}
-        </main>
+                <div className="flex justify-center mt-10">
+                    <img src="/logo.png" alt="Logo" className="h-100 w-100 rounded-full"/>
+                </div>
+            </div>
+        </div>
     );
 }
