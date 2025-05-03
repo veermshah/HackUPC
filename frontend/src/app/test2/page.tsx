@@ -4,7 +4,6 @@ import GaugeChart from "@/components/GaugeChart";
 export default function Test2() {
     return (
         <div>
-            <GaugeChart />
         </div>
     );
 }

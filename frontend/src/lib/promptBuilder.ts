@@ -19,7 +19,7 @@ export function generarPromptDesdeJSON(
  2. "destinos_sugeridos": Una lista de 3 destinos recomendados. Para cada destino incluye:
    - "nombre": nombre del destino.
    - "iata": código IATA del aeropuerto principal de esa ciudad.
-   - "estimacion_co2": cantidad estimada de CO₂ (en kg) emitidos por toda la ciudad en un día típico de la fecha del viaje.
+   - "estimacion_co2": califica del 1 al 100 el nivel de contaminacion de toda la ciudad en la fecha estimada de viaje.
    - "lugares_destacados": al menos 2 lugares importantes con:
        - "nombre"
        - "descripcion"
