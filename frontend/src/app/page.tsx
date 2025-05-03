@@ -2,23 +2,81 @@ import { auth0 } from "@/lib/auth0";
 import "./globals.css";
 import { connectToDB } from "@/lib/mongodb";
 import User from "@/lib/models/user";
+import Group from "@/lib/models/groups";
+import { v4 as uuidv4 } from "uuid";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import CreateGroupButton from "@/components/CreateGroupButton";
+import GroupList from "@/components/GroupList";
+import { cookies } from "next/headers";
+
 import Link from "next/link";
 import Liquid from "@/components/spline/page";
 import LoginHome from "@/components/LoginHome/page";
-import { Typewriter } from "react-simple-typewriter";
 import TypewriterEffect from "@/components/typewriter/page";
 
 export default async function Home() {
     const session = await auth0.getSession();
+    const cookieStore = await cookies();
+    const invitedGroupId = cookieStore.get("invitedGroupId")?.value;
+    let userGroups: any[] = [];
+
+    if (session) {
+        await connectToDB();
+        let existingUser = await User.findOne({ auth0Id: session.user.sub });
+
+        if (!existingUser && invitedGroupId) {
+            existingUser = await User.create({
+                auth0Id: session.user.sub,
+                email: session.user.email,
+                name: session.user.name,
+                groups: [invitedGroupId],
+            });
+        } else if (existingUser && invitedGroupId) {
+            await User.findOneAndUpdate(
+                { auth0Id: session.user.sub },
+                { $addToSet: { groups: invitedGroupId } }
+            );
+        }
+
+        if (existingUser?.groups?.length > 0) {
+            userGroups = await Group.find({
+                groupId: { $in: existingUser.groups },
+            });
+        }
+    }
+
+    async function createGroup(formData: FormData) {
+        "use server";
+        const name = formData.get("groupName")?.toString();
+        if (!name || !session) return;
+
+        await connectToDB();
+
+        const newGroupId = uuidv4();
+        await Group.create({
+            groupId: newGroupId,
+            name,
+            createdAt: new Date(),
+        });
+
+        await User.findOneAndUpdate(
+            { auth0Id: session.user.sub },
+            {
+                $addToSet: { groups: newGroupId },
+                $set: { isOwner: true },
+            }
+        );
+
+        revalidatePath("/");
+        redirect("/");
+    }
 
     return (
-        <main>
-            <nav className="fixed top-6 left-0 right-0 mx-4 flex items-center justify-between px-8 py-4 rounded-full bg-white/10 backdrop-blur-md border-2 border-black/10 shadow-lg">
+        <main className="min-h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/background.jpg')" }}>
+            <nav className="fixed top-6 left-0 right-0 mx-4 flex items-center justify-between px-8 py-4 rounded-full bg-white/10 backdrop-blur-md border-2 border-black/10 shadow-lg z-10">
                 <div className="flex items-center space-x-4">
-                    <a
-                        href="/"
-                        className="group relative inline-flex items-center"
-                    >
+                    <a href="/" className="group relative inline-flex items-center">
                         <span className="relative z-10 text-3xl font-black text-[#0f3857] transform transition-transform duration-300 group-hover:translate-x-16">
                             Midpoint
                         </span>
@@ -28,21 +86,18 @@ export default async function Home() {
                             className="absolute left-0 w-12 h-12 opacity-0 transform -translate-x-12 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0"
                         />
                     </a>
+                    {session && <CreateGroupButton action={createGroup} />}
                     <button className="text-xl ml-32 font-semibold text-[#0f3857] cursor-pointer hover:scale-110 active:scale-95 duration-75">
                         <Link href="/about">About</Link>
                     </button>
-
                     {session && (
-                        <div>
-                            <button className="text-xl ml-8 font-semibold text-[#0f3857] cursor-pointer hover:scale-110 active:scale-95 duration-75">
-                                Create Group
-                            </button>
+                        <>
                             <Link href="/preferences">
                                 <button className="text-xl ml-8 font-semibold text-[#0f3857] cursor-pointer hover:scale-110 active:scale-95 duration-75">
                                     Preferences
                                 </button>
                             </Link>
-                        </div>
+                        </>
                     )}
                 </div>
 
@@ -74,6 +129,7 @@ export default async function Home() {
                     )}
                 </div>
             </nav>
+
             {!session ? (
                 <div>
                     <Liquid />
@@ -82,7 +138,13 @@ export default async function Home() {
                     </div>
                 </div>
             ) : (
-                <LoginHome />
+                <>
+                    <div className="pt-[120px] px-8">
+                        <h2 className="text-2xl font-bold mb-4 text-black">Groups</h2>
+                        <GroupList groups={userGroups} />
+                    </div>
+                    <LoginHome />
+                </>
             )}
         </main>
     );
