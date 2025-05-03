@@ -1,11 +1,15 @@
 // lib/models/User.js
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
-    auth0Id: { type: String, required: true, unique: true },
-    email: { type: String, required: true, unique: true },
-    name: String,
-    createdAt: { type: Date, default: Date.now },
+  auth0Id: { type: String, required: true, unique: true },
+  email: { type: String, required: true },
+  name: { type: String },
+  groups: [{ type: String }], // lista de groupIds
+  isOwner: { type: Boolean, default: false }, // nuevo campo booleano
 });
 
-export default mongoose.models.User || mongoose.model('User', UserSchema);
+const User = mongoose.models.User || mongoose.model("User", UserSchema);
+
+export default User;
+
