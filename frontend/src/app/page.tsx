@@ -2,6 +2,7 @@ import { auth0 } from "@/lib/auth0";
 import "./globals.css";
 import { connectToDB } from "@/lib/mongodb";
 import User from "@/lib/models/user";
+import Link from "next/link";
 
 export default async function Home() {
     const session = await auth0.getSession();
@@ -20,9 +21,16 @@ export default async function Home() {
                         Scanner
                     </a>
                     {session && (
-                        <button className="text-xl ml-32 font-semibold text-[#0f3857] cursor-pointer hover:scale-110 active:scale-95 duration-75">
-                            Create Group
-                        </button>
+                        <div>
+                            <button className="text-xl ml-32 font-semibold text-[#0f3857] cursor-pointer hover:scale-110 active:scale-95 duration-75">
+                                Create Group
+                            </button>
+                            <Link href="/preferences">
+                                <button className="text-xl ml-8 font-semibold text-[#0f3857] cursor-pointer hover:scale-110 active:scale-95 duration-75">
+                                    Preferences
+                                </button>
+                            </Link>
+                        </div>
                     )}
                 </div>
 
