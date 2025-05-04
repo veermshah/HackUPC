@@ -28,7 +28,6 @@ export async function POST(req: Request) {
         for (const email of emails) {
             await transporter.sendMail({
                 from: `"Midpoint Team" <${process.env.EMAIL_USER}>`,
-                from: `"Midpoint Team" <${process.env.EMAIL_USER}>`,
                 to: email,
                 subject: `🚀 Invitation to join "${groupName}" on Midpoint!`,
                 html: `
