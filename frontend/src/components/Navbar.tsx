@@ -9,65 +9,77 @@ interface NavbarProps {
 
 export default function Navbar({ session, createGroup }: NavbarProps) {
     return (
-        <nav className="fixed top-6 left-0 right-0 mx-4 flex items-center justify-between px-8 py-4 rounded-full bg-white/10 backdrop-blur-md border-2 border-black/10 shadow-lg z-10">
-            <div className="flex items-center space-x-4">
-                <a href="/" className="group relative inline-flex items-center">
-                    <span className="relative z-10 text-3xl font-black text-[#0f3857] transform transition-transform duration-300 group-hover:translate-x-16">
+        <nav className="fixed top-6 left-0 right-0 rounded-lg mx-4 flex items-center justify-between px-8 py-4  bg-white/20 backdrop-blur-md border border-black/10 shadow-xl z-50">
+            {/* Logo & Main Links */}
+            <div className="flex items-center space-x-6">
+                <Link href="/" className="relative flex items-center group">
+                    <span className="text-3xl font-extrabold text-[#0f3857] transition-transform duration-300 group-hover:translate-x-10">
                         Midpoint
                     </span>
                     <img
                         src="/nobg.png"
                         alt="Icon"
-                        className="absolute left-0 w-12 h-12 opacity-0 transform -translate-x-12 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0"
+                        className="absolute left-0 w-10 h-10 opacity-0 -translate-x-10 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0"
                     />
-                </a>
+                </Link>
 
                 {session && (
-                    <>
-                        <Link href="/about" className="text-xl ml-32 font-semibold text-[#0f3857] cursor-pointer hover:scale-110 active:scale-95 duration-75">
-                            About
-                        </Link>
-                        <CreateGroupButton action={createGroup} />
-                        <Link
-                            href="/preferences"
-                            className="text-xl ml-8 font-semibold text-[#0f3857] cursor-pointer hover:scale-110 active:scale-95 duration-75"
-                        >
-                            Preferences
-                        </Link>
-                        <Link
-                            href="/advisor"
-                            className="text-xl ml-8 font-semibold text-[#0f3857] cursor-pointer hover:scale-110 active:scale-95 duration-75"
-                        >
-                            Advisor
-                        </Link>
-                    </>
+                    <div className="flex items-center space-x-6 ml-12">
+                    {[
+                      { href: "/about", label: "About" },
+                      { href: "/preferences", label: "Preferences" },
+                      { href: "/advisor", label: "Advisor" },
+                    ].map(({ href, label }) => (
+                      <Link
+                        key={href}
+                        href={href}
+                        className="text-lg font-medium text-[#0f3857] transform transition duration-200 hover:scale-105 hover:text-[#133e66] cursor-pointer"
+                      >
+                        {label}
+                      </Link>
+                    ))}
+                  
+                    {/* <div className="transform transition duration-200 hover:scale-105">
+                      <CreateGroupButton action={createGroup} />
+                    </div> */}
+
+                    
+                    <CreateGroupButton action={createGroup} />
+                  </div>
+                  
                 )}
             </div>
 
-            <div className="space-x-4">
+                
+            
+
+
+            {/* Auth Section */}
+            <div className="flex items-center space-x-4">
                 {!session ? (
                     <>
-                        <a href="/auth/login?screen_hint=signup">
-                            <button className="px-4 py-2 bg-[#0f3857] text-[#c0dedf] hover:bg-[#c0dedf] hover:text-[#0f3857] hover:scale-110 active:scale-95 cursor-pointer rounded-xl duration-75">
+                        <Link href="/auth/login?screen_hint=signup">
+                            <button className="px-4 py-2 rounded-xl bg-[#0f3857] text-[#c0dedf] font-semibold hover:bg-[#133e66] hover:text-white transition duration-200">
                                 Sign up
                             </button>
-                        </a>
-                        <a href="/auth/login">
-                            <button className="px-4 py-2 bg-[#c0dedf] text-[#0f3857] hover:text-[#c0dedf] hover:bg-[#0f3857] rounded-xl hover:scale-110 active:scale-95 cursor-pointer duration-75">
+                        </Link>
+                        <Link href="/auth/login">
+                            <button className="px-4 py-2 rounded-xl bg-[#c0dedf] text-[#0f3857] font-semibold hover:bg-[#0f3857] hover:text-white transition duration-200">
                                 Log in
                             </button>
-                        </a>
+                        </Link>
                     </>
                 ) : (
                     <>
-                        <span className="text-white text-lg font-semibold">
+                        <span className="text-sm text-white font-medium">
                             Welcome, {session.user.name}!
                         </span>
-                        <a href="/auth/logout">
-                            <button className="px-4 py-2 bg-[#c0dedf] text-black hover:text-[#c0dedf] hover:bg-[#0f3857] hover:scale-110 active:scale-95 cursor-pointer rounded-xl duration-75">
+                        <Link href="/auth/logout">
+                            <button className="px-4 py-2 rounded-xl bg-[#c0dedf] text-black font-semibold hover:bg-[#0f3857] hover:text-white transition duration-200 cursor-pointer">
                                 Log out
                             </button>
-                        </a>
+
+                        </Link>
                     </>
                 )}
             </div>

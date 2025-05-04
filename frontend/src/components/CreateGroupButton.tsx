@@ -9,7 +9,7 @@ export default function CreateGroupButton({ action }: { action: (formData: FormD
     <>
       <button
         onClick={() => setShow(true)}
-        className="text-xl ml-8 font-semibold text-[#0f3857] cursor-pointer hover:scale-110 active:scale-95 duration-75"
+        className="px-4 py-2 rounded-xl border border-[#0f3857] bg-[#0f3857] text-white font-semibold hover:bg-white hover:text-[#0f3857] transition duration-200 cursor-pointer"
       >
         Create Group
       </button>
