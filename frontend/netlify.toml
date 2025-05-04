@@ -1,3 +1,6 @@
 [build]
   command = "npm rebuild && next build"
   publish = ".next"
+  
+[context.production.environment]
+  NPM_CONFIG_FORCE = "true"
