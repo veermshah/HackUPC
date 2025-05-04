@@ -31,7 +31,7 @@ export function SuggestButton({ users }: { users: any[] }) {
         <button
             disabled={!users.every((u) => u.tripPreferences)}
             onClick={handleClick}
-            className={`px-5 py-2 rounded-lg font-semibold duration-150 cursor-pointer ${
+            className={`px-5 py-2 rounded-lg font-semibold duration-150 ${
                 users.every((u) => u.tripPreferences)
                     ? "bg-[#0f3857] text-white hover:bg-[#0d2f49] hover:scale-105"
                     : "bg-gray-300 text-gray-500 cursor-not-allowed"

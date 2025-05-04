@@ -20,7 +20,7 @@ export default function GroupList({ groups }: { groups: any[] }) {
                                 router.push(`/groups/${group.groupId}`)
                             }
                         >
-                            <div className="flex items-center justify-center h-full text-center">
+                            <div className="flex items-center justify-center h-full text-center hover:text-[#0f3857] ">
                                 {group.name}
                             </div>
 

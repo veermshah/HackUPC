@@ -12,7 +12,7 @@ export function generarPromptDesdeJSON(
     });
 
     prompt += `
-Con base en estas respuestas, devuelve lo siguiente en formato JSON (sin explicaciones):
+Con base en estas respuestas, devuelve lo siguiente en formato JSON (sin explicaciones y todo en ingles):
 
 1. "intereses_comunes": Un texto breve (1 o 2 frases) con al menos un interés común, aunque sea general (como "viajar en verano", "prefieren climas suaves", etc.). Nunca debe estar vacío.
 

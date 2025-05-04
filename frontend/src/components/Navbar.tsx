@@ -14,7 +14,7 @@ export default function Navbar({ session, createGroup }: NavbarProps) {
             <div className="flex items-center space-x-6">
                 <Link href="/" className="relative flex items-center group">
                     <span className="text-3xl font-extrabold text-[#0f3857] transition-transform duration-300 group-hover:translate-x-10">
-                        Midpoint
+                        MidPoint
                     </span>
                     <img
                         src="/nobg.png"
@@ -26,9 +26,9 @@ export default function Navbar({ session, createGroup }: NavbarProps) {
                 {session && (
                     <div className="flex items-center space-x-6 ml-12">
                     {[
-                      { href: "/about", label: "About" },
                       { href: "/preferences", label: "Preferences" },
                       { href: "/advisor", label: "Advisor" },
+                      { href: "/about", label: "About" },
                     ].map(({ href, label }) => (
                       <Link
                         key={href}

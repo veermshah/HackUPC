@@ -25,10 +25,7 @@ const GaugeChart: React.FC<GaugeChartProps> = ({
     const remainder = 100 - percentage;
 
     return (
-        <div className="h-24">
-            <h2 className="text-lg text-white text-center font-semibold">
-                Emissions
-            </h2>
+        <div>
             <Doughnut
                 data={{
                     labels: ["Valor", "Resto"],
@@ -53,6 +50,7 @@ const GaugeChart: React.FC<GaugeChartProps> = ({
                     },
                 }}
             />
+            <h2 className="text-lg font-semibold mb-16">{label}</h2>
         </div>
     );
 };
