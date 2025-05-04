@@ -70,8 +70,7 @@ export default async function About() {
     return (
         <div>
             <Navbar session={session} createGroup={createGroup} />
-            <div className="flex flex-col items-center justify-center h-screen mt-20">
-                <h1 className="text-3xl font-bold mb-4">Mr. Midpoint</h1>
+            <div className="flex flex-col items-center justify-center mt-40">
                 <AIChat />
             </div>
         </div>
