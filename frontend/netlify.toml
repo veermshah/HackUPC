@@ -1,3 +1,7 @@
 [build]
-  command = "npm rebuild && next build"
+  command = "npm install --force && npm rebuild lightningcss && next build"
   publish = ".next"
+
+[context.production.environment]
+  NPM_CONFIG_FORCE = "true"
+  NODE_ENV = "production"
