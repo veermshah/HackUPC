@@ -155,8 +155,82 @@ export default function TripResultPage() {
     }, []);
 
     useEffect(() => {
+
         const fetchPhotos = async () => {
             if (!result?.destinos_sugeridos) return;
+
+        const createCarSearch = async () => {
+            const body = {
+                query: {
+                    market: "UK",
+                    locale: "en-GB",
+                    currency: "EUR",
+                    pickUpLocation: { entityId: "27544008" },
+                    pickUpDate: {
+                        year: 2025,
+                        month: 12,
+                        day: 21,
+                        hour: 16,
+                        minute: 30,
+                    },
+                    dropOffDate: {
+                        year: 2025,
+                        month: 12,
+                        day: 26,
+                        hour: 12,
+                        minute: 30,
+                    },
+                    includedAgentIds: ["vipd", "sixt"],
+                    driverAge: 38,
+                },
+            };
+
+            const res = await fetch("/api/skyscanner", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body),
+            });
+
+            const data = await res.json();
+            console.log("Car Hire Response:", data);
+        };
+        createCarSearch();
+
+        // In your client component
+        const searchFlights = async () => {
+            const res = await fetch("/api/flight/search", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    query: {
+                        market: "UK",
+                        locale: "es-ES",
+                        currency: "EUR",
+                        query_legs: [
+                            {
+                                origin_place_id: { iata: "BCN" },
+                                destination_place_id: {
+                                    iata: result.destinos_sugeridos[0].iata,
+                                },
+                                date: { year: 2025, month: 12, day: 22 },
+                            },
+                        ],
+                        adults: 1,
+                        cabin_class: "CABIN_CLASS_ECONOMY",
+                    },
+                }),
+            });
+
+            const data = await res.json();
+            console.log("Flights", data);
+        };
+        searchFlights();
+    }, [result]);
+
+    useEffect(() => {
+        const fetchPhoto = async () => {
+            if (!result?.destinos_sugeridos?.[0]?.nombre) return;
+
 
             const ACCESS_KEY = "vSKfV-0HWtFhhhYwaERpT_O6TqYt2bXnsHM4BingwKU";
             const urls: { [key: number]: string } = {};

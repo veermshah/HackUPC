@@ -298,6 +298,7 @@ export default async function GroupMembers({
                                 key={user._id}
                                 className="border border-gray-200 rounded-lg shadow-sm open:shadow-lg transition duration-200 overflow-hidden"
                             >
+
                                 <summary className="cursor-pointer select-none p-4 font-semibold text-[#0f3857] hover:bg-gray-100">
                                     {user.name || user.email}
                                 </summary>
@@ -318,6 +319,68 @@ export default async function GroupMembers({
                                 </div>
                             </details>
                         ))}
+
+                                {user.name || user.email}
+                                {hasTripPreferences && (
+                                    <span
+                                        title="Submitted trip preferences"
+                                        className="text-green-600 text-lg"
+                                    >
+                                        ✅
+                                    </span>
+                                )}
+                            </li>
+                        );
+                    })}
+                </ul>
+
+                <div className="mt-6">
+                    {/* <button
+                        disabled={!allUsersReady}
+                        className={`px-5 py-2 rounded-lg font-semibold duration-150 ${
+                            allUsersReady
+                                ? "bg-[#0f3857] text-white hover:bg-[#0d2f49] hover:scale-105"
+                                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                        }`}
+                    >
+                        SUGGEST
+                    </button> */}
+                    <SuggestButton users={users} />
+                    
+                </div>
+            </div>
+
+            {/* Right: trip preferences per user */}
+            <div>
+                <h2 className="text-xl font-semibold mb-4">Trip Preferences</h2>
+                {users.map((user: any) => (
+                    <div
+                        key={user._id}
+                        className="mb-6 p-4 border border-gray-200 rounded-lg shadow-sm"
+                    >
+                        <h3 className="font-semibold text-lg mb-2">
+                            {user.name || user.email}
+                        </h3>
+                        {user.tripPreferences &&
+                        Object.keys(user.tripPreferences).length > 0 ? (
+                            <ul className="text-sm text-gray-700 space-y-1">
+                                {Object.entries(user.tripPreferences).map(
+                                    ([key, value]) => (
+                                        <li key={key}>
+                                            <strong>{key}:</strong>{" "}
+                                            {Array.isArray(value)
+                                                ? value.join(", ")
+                                                : value?.toString()}
+                                        </li>
+                                    )
+                                )}
+                            </ul>
+                        ) : (
+                            <p className="text-gray-500 italic">
+                                No preferences submitted
+                            </p>
+                        )}
+
                     </div>
                 </div>
             </div>
