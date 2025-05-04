@@ -1,0 +1,3 @@
+[build]
+  command = "npm rebuild && next build"
+  publish = ".next"

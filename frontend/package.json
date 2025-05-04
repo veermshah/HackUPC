@@ -16,6 +16,7 @@
         "@mui/material": "^7.0.2",
         "@splinetool/react-spline": "^4.0.0",
         "@splinetool/runtime": "^1.9.89",
+        "@talkjs/react": "^0.1.11",
         "ajv": "^8.17.1",
         "chart.js": "^4.4.9",
         "cookies-next": "^5.1.0",
@@ -31,6 +32,7 @@
         "react-hook-form": "^7.56.1",
         "react-simple-typewriter": "^5.0.1",
         "swapy": "^1.0.5",
+        "talkjs": "^0.37.0",
         "uuid": "^11.1.0"
     },
     "devDependencies": {
